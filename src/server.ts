@@ -1,13 +1,12 @@
-import express, { response } from "express";
+import express from "express";
+
+import "./database";
+import { routes } from "./routes";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  return res.json({message:"Olá NLW 05"});
-})
+app.use(express.json());
 
-app.post("/", (req, res) => {
-  return response.json({ message: "Usuário salvo com sucesso!"});
-})
+app.use(routes);
 
-app.listen(3000, () => console.log("Api Started"));
+app.listen(3333, () => console.log("Api Started"));
