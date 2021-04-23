@@ -1,37 +1,42 @@
 import {
-  Entity, 
-  PrimaryColumn, 
-  CreateDateColumn, 
-  Column, ManyToMany, 
-  ManyToOne, 
+  Column,
+  CreateDateColumn,
+  Entity,
   JoinColumn,
-  UpdateDateColumn} 
-  from "typeorm";
-import {v4 as uuid} from "uuid";
-import { User } from "./User";
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { v4 as uuidV4 } from 'uuid';
 
-@Entity("connections")
+import { User } from './User';
+
+@Entity('connections')
 class Connection {
   @PrimaryColumn()
   id: string;
+
   @Column()
   admin_id: string;
-  @Column()
-  socket_id: string;
-  @JoinColumn({ name: "user_id"})
-  @ManyToOne(() => User)
-  user: User;
+
   @Column()
   user_id: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @Column()
+  socket_id: string;
+
   @CreateDateColumn()
   created_at: Date;
+
   @UpdateDateColumn()
   updated_at: Date;
 
-  constructor () {
-    if (!this.id){
-      this.id = uuid();
-    }
+  constructor() {
+    if (!this.id) this.id = uuidV4();
   }
 }
 

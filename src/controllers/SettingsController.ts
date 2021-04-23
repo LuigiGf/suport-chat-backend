@@ -1,40 +1,42 @@
-import {Request, Response} from "express";
-import { SettingsService } from "../services/SettingsService";
+import { Request, Response } from 'express';
 
-class SettingsController{
-  async create(req: Request, res: Response){
-    const {chat, username} = req.body;
-    const settingService = new SettingsService();
+import { SettingsService } from '../services/SettingsService';
 
-    try{
-      const settings = await settingService.create({chat, username});
-      return res.json(settings);
-    }catch (err){
-      res.status(400).json({
-        message: err.message,
-      });
+class SettingsController {
+  async create(req: Request, res: Response) {
+    const { chat, username } = req.body;
+
+    const settingsService = new SettingsService();
+
+    try {
+      const setting = await settingsService.create({ chat, username });
+
+      return res.json(setting);
+    } catch (err) {
+      return res.status(400).json({ message: err.message });
     }
   }
-  
-  async findByUsername(req: Request, res: Response){
+
+  async findByUsername(req: Request, res: Response) {
     const { username } = req.params;
 
     const settingsService = new SettingsService();
 
-    const settings = await settingsService.findByUsername(username);
+    const setting = await settingsService.findByUsername(username);
 
-    return res.json(settings);
+    return res.json(setting);
   }
 
-  async update(req: Request, res: Response){
+  async update(req: Request, res: Response) {
     const { username } = req.params;
     const { chat } = req.body;
 
     const settingsService = new SettingsService();
 
-    const settings = await settingsService.update(username, chat);
-    return res.json(settings);
+    await settingsService.update(username, chat);
+
+    return res.send();
   }
 }
 
-export { SettingsController }
+export { SettingsController };
